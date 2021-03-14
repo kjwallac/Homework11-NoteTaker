@@ -6,7 +6,7 @@
 
 const { v4: uuidv4 } = require("uuid");
 // const noteData = require('../db/notes');
-const { saveNote, readNotes } = require("../db/notes");
+const { saveNote, readNotes, deleteNote } = require("../db/notes");
 
 module.exports = (app) => {
   app.get("/api/notes", (req, res) => res.json(readNotes()));
@@ -15,5 +15,10 @@ module.exports = (app) => {
     const note = { ...req.body, id: uuidv4() };
     saveNote(note);
     res.json(note);
+  });
+
+  app.delete("/api/notes/:id", (req, res) => {
+    deleteNote(req.params.id);
+    res.json({success: true});
   });
 };
